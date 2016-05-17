@@ -4,8 +4,6 @@
 
 This [test suite](https://github.com/magento-hackathon/hackathon-casperjs) was developed during various Magento hackathons in Germany. The tests located in the tests directory work with a default Magento CE installation with sample data installed. The idea is that if you have a custom project you will duplicate those tests in a separate directory and make the necessary adjustments so that the tests pass with your custom theme, extensions and custom modifications.
 
-If you develop new generic tests, please contribute them back to this project by either coming to a Magento Hackathon and requesting write access to this repository or by forking it and submitting a pull request.
-
 ## WordPress/WooCommerce
 
 T.J. Fogarty put up a [gist](https://gist.github.com/tjFogarty/46a6bc231dbebe925728) for testing a WordPress search form with CasperJS, which might be a good start for more tests.
