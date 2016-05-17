@@ -1,4 +1,4 @@
-# CasperJS Frontend Tests for Magento, WordPress and WooCommerce
+# CasperJS Frontend Tests
 
 ## Magento
 
