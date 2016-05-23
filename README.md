@@ -44,4 +44,8 @@ casper.test.begin('Testing search form', 2, function suite(test) {
 });
 ```
 
+## osCommerce
+
+At Openstream we're maintaining a couple of legacy projects based on osCommerce 2.2, so we might also need some tests for those projects.
+
 Code is poetry.
