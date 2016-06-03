@@ -17,7 +17,7 @@
  */    
 
 /// config here the specific shop data
-var page1 = 'http://localhost/
+var page1 = 'http://localhost/'
 var page2 = 'http://localhost/meine-saftstation-i-16.html';
 
 var WELLCOME_MESSAGE = 'Grüezi und herzlich willkommen!';
