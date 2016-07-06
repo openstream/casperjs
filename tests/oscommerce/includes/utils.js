@@ -48,3 +48,16 @@ function getLinks(selector, has_href, exclude_arr) {
   }
   return res;
 }
+
+/**
+ * test assertResourceExists by array of urls
+ * @param {type} casper
+ * @param {Array} links
+ * @returns {undefined}
+ */
+function assertResourceExistsByArray(casper, links) {
+    for(var i=0;i< links.length; i++){     
+      var s = links[i].substr(links[i].lastIndexOf('/')+1);
+      casper.test.assertResourceExists(s , 'resource exists: ' + links[i]);
+    }
+}
