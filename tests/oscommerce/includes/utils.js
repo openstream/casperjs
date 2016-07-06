@@ -8,25 +8,33 @@
  */   
 
 /**
- * get all links in selector not contain "advanced_search_result.php" as uniquqe array
- * @param {type} css3-selector like ".productListing td a"
- * @returns {Array|getLinks.link_arr}
+ * get all links for selector
+ * @param selector css3 selector 
+ * @param has_href selected has href or src attribute
+ * @param exclude_arr optional outmitted matches e.g. ['http://www.some.com/',..]
+ * @returns {Array} urls
  */
-function getLinks( selector) {
+function getLinks(selector, has_href, exclude_arr) {
   
-  if ( typeof selector == 'undefined') selector = '.productListing td a';  
+  if( typeof exclude_arr === 'undefined' ) exclude_arr = [];
   var link_arr = new Array();
-  var links = document.querySelectorAll(selector);
+  var links = document.querySelectorAll( selector );
   for(var i=0;i< links.length; i++){ 
-      if( links[i].href.search(/advanced_search_result.php/) == -1 ) {
-          link_arr[link_arr.length] = links[i].href; 
+    var s = has_href ? links[i].href : links[i].src; 
+      if( s.length > 2 && s.search('http') !== -1)  {
+        var ok = true;
+        for(var j=0; j < exclude_arr.length; j++) {
+          if( s.search(exclude_arr[j]) !== -1 ) {
+            ok = false;
+            break;
+          }
+        }
+        if(ok) link_arr[link_arr.length] = s;
       }
   }
   // remove double
   var res = [];
-  var last = '';
   for(var i = 0, l = link_arr.length; i < l; ++i){
-    if(last === link_arr[i]) continue; // mostly double come in seriell
     var found = false;
     for(var j = 0, m = res.length; j < m; ++j){
       if( link_arr[i] === res[j] ) {
@@ -36,23 +44,7 @@ function getLinks( selector) {
     }
     if(!found) {
       res.push(link_arr[i]);
-      last = link_arr[i];
     }
   }
   return res;
-}
-
-/**
- * get products id by seo url
- * @param {type} uri
- * @returns pID on success, else -1
- */
-function getProductsIdByUri(uri) {
-  var page_name = uri.substr(uri.lastIndexOf('/')+1);
-  var pID = page_name.match(/-p-[0-9].+/);
-  if( pID !== -1 ) {
-      pID = pID[0];
-      pID = pID.substr(3, pID.length-8);
-  }
-  return pID;
 }
