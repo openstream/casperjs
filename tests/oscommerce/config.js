@@ -16,7 +16,7 @@ var test_url = 'http://localhost/';
 
 
 var test_page = new Object();
-test_page.get_links_selector = 'div a';
+test_page.get_links_selector = 'body a';
 test_page.get_img_selector = 'div img';
 test_page.get_link_selector = 'link';
 test_page.get_script_selector = 'script';
