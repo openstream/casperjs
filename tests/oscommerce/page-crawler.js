@@ -15,7 +15,7 @@
 require("utils")
 
 var get_url = casper.cli.get("url");
-var test_url = typeof get_url != 'undefined' ? get_url : ( test_url = typeof get_url != 'undefined' ? test_rurl : 'http://localhost/');
+var test_url = typeof get_url != 'undefined' ? get_url : ( typeof test_url != 'undefined' ? test_url : 'http://localhost/');
 
 var links = [];
 
