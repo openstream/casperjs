@@ -38,7 +38,7 @@ casper.then(function() {
   this.test.assertEquals(product_name.match(product.name_find_part)[0], product.name_find_part , 'search result list contains product name');
 
   // get product info
-  this.click(product.selector_search_result_vis);
+  this.thenClick(product.selector_search_result_vis);
 });
 
 

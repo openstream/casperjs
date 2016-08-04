@@ -21,8 +21,7 @@ casper.start(test_url, function() {
   
   this.test.assertExists(this.evaluate(function() {return customer.selector_my_account;}), 'my-account link present');
   
-  // click it
-  this.click(customer.selector_my_account);
+  this.thenClick(customer.selector_my_account);
 });
 
 
@@ -33,8 +32,7 @@ casper.then(function() {
 
   this.test.assertExists(this.evaluate(function() {return customer.selector_create_account;}), 'create-account link present');
   
-  // click it
-  this.click(customer.selector_create_account);
+  this.thenClick(customer.selector_create_account);
 });
 
 
@@ -57,25 +55,17 @@ casper.then(function() {
     'confirmation': customer.password,
     'newsletter': customer.newsletter,
     'country': customer.country_id
-  }, true);
+  }, false);
   
   // get a screenshot
   this.capture('customer-create-account-filled.png');
   
-  this.echo('creating customer "' + customer.email_address + '", this may need some time ...');
+  this.thenClick(customer.selector_create_continue);
 });
 
-
-// first redirect
-casper.then(function() { 
-// 
+casper.waitForText(customer.message_account_create_success, function() { 
+  if(casper.options.verbose === true)  this.echo('[element arrived] ' + customer.message_account_create_success);
 });
-
-// next redirect
-casper.then(function() { 
-//
-});
-
 
 // get create accout result page
 casper.then(function() { 
@@ -86,7 +76,7 @@ casper.then(function() {
   this.capture('customer-create-account-done.png');
   
   // log off
-  this.click(customer.selector_logoff);
+  this.thenClick(customer.selector_logoff);
 });
 
 
@@ -96,7 +86,7 @@ casper.then(function() {
   this.test.assertTextExist(customer.message_account_logoff,'logged off success message found');
   
   // log in again
-  this.click(customer.selector_my_account);
+  this.thenClick(customer.selector_my_account);
 });
 
 
@@ -108,17 +98,16 @@ casper.then(function() {
   this.fill(customer.selector_form_login, {
     'email_address': customer.email_address,
     'password': customer.password
-  }, true);
+  }, false);
   
   // get a screenshot
   this.capture('customer-account-log-in.png');
+  this.thenClick(customer.selector_login_continue_btn);
 });
 
-// first redirect
-casper.then(function() { 
-// 
+casper.waitForText(customer.message_account_logged_in, function() {
+  if(casper.options.verbose === true)  this.echo('[element arrived] ' + customer.message_account_logged_in);
 });
-
 
 
 // logged in
@@ -130,7 +119,7 @@ casper.then(function() {
   this.test.assertTextExist(customer.message_account_logged_in,'logged in message found');
   
   // finally log out
-  this.click(customer.selector_logoff);
+  this.thenClick(customer.selector_logoff);
 });
 
 
