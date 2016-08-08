@@ -23,7 +23,7 @@ var backend = {
       login_submit : 'input#wp-submit', // form submit button
       menu_link : 'li#wp-admin-bar-menu-toggle a', // main menu
       menu_woocommerce_top : 'li#toplevel_page_woocommerce a', // woocommerce top menu
-      menu_woocommerce_order : 'li.toplevel_page_woocommerce ul li a', // 'li.wp-first-item a', // 'a[href~="edit.php?post_type=shop_order"]', // woocommerce order menu      
+      menu_woocommerce_order : 'li.toplevel_page_woocommerce ul li a', // woocommerce order menu      
       woocommerce_order : 'table.wp-list-table tr:nth-child(1) td:nth-child(3)', // first order in list, if not match "tr:nth-child(1)" will be increased
       order_delete_btn :  'table.wp-list-table tr:nth-child(1) td:nth-child(3) a.submitdelete',  // order delete button, if not match tr:nth-child(1) will be increased
       order_deleted : 'div#message p a', // trash undo button
@@ -51,16 +51,17 @@ var customer = {
     company : 'Openstream',
     street_address : 'Heinrichstrasse 267a',
     street_address2 : 'Citizen Space',
-    postcode : '80050',
+    postcode : '8005',
     city : 'Zürich',
     state : '', // Canton
-    billing_country : 'DE',
-    order_comments : 'Achtung: Nur eine Testbestellung!'
+    billing_country : 'CH',
+    order_comments : 'Achtung: Nur eine Testbestellung!',
+    order_number : 0
 }
 
 var frontend = {
   menu : '#site-navigation button',
-  shop_menu : 'nav#site-navigation li a',
+  shop_menu : 'a[href$="/shop/"]',
   cart_product_detail : 'a.woocommerce-LoopProduct-link',
   add_to_cart : 'button.single_add_to_cart_button',
   shop_kassa : 'nav#site-navigation li:nth-child(4) a',
@@ -76,6 +77,6 @@ var frontend = {
 
 
 // casper
-casper.options.verbose  = true;
+casper.options.verbose  = false;
 casper.options.logLevel = 'debug';// 'info';
 casper.options.waitTimeout = 180000;

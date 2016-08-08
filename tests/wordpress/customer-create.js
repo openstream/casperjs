@@ -12,7 +12,7 @@
  */
 
 
-casper.test.begin('Testing account and order for create and delete', 32, function suite(test) {
+casper.test.begin('Testing account and order for create and delete', 33, function suite(test) {
 
   // get startpage, open menu
   casper.start(frontend_url, function() { 
@@ -115,8 +115,14 @@ casper.test.begin('Testing account and order for create and delete', 32, functio
   // order recieved, menu
   casper.then(function() { 
     this.capture('customer-order-recieved.png');
-    test.assertVisible(frontend.order_received, 'order finished element visable'); 
+    test.assertVisible(frontend.order_received, 'order finished element visable');
+    customer.order_number = this.evaluate(function(selector) {
+      return document.querySelector(selector).innerText.split("\n")[1];
+    },frontend.order_number);
+    test.assert(customer.order_number > 0, 'order number [ ' + customer.order_number + ' ]');
     this.thenClick(frontend.menu);
+  },function(){
+    this.capture('frontend-error-order-create.png');
   });
 
   casper.waitForSelector(frontend.shop_menu, function() {
@@ -149,7 +155,6 @@ casper.test.begin('Testing account and order for create and delete', 32, functio
   // logged off
   casper.then(function() {
     test.assertVisible(frontend.account_logged_off, 'login password field visable');
-    this.echo('account and order created', 'INFO');
   });
 
 
@@ -182,6 +187,8 @@ casper.test.begin('Testing account and order for create and delete', 32, functio
 
   casper.waitForSelector(backend.menu_link, function() {
     if(casper.options.verbose === true) this.echo('[selector arrived] ' + backend.menu_link);
+  }, function(){
+    this.capture('admin-error-log-in.png');
   });
 
 
@@ -230,10 +237,10 @@ casper.test.begin('Testing account and order for create and delete', 32, functio
       var selector = backend.woocommerce_order.replace('tr:nth-child(1)', 'tr:nth-child(' + ++row_idx +')');
       var order_info = this.getHTML(selector);
       if(order_info === null ) break;
-      found = (0 < order_info.search(customer.firstname) && 0 < order_info.search(customer.lastname) && 0 < order_info.search(customer.email_address));
+      found = (0 < order_info.search(customer.order_number) && 0 < order_info.search(customer.firstname) && 0 < order_info.search(customer.lastname) && 0 < order_info.search(customer.email_address));
     }
     if(casper.options.verbose === true) this.echo('order found: ' + (typeof order_info != null ? order_info : 'null'));
-    test.assertEquals(found, true, 'order found (' +customer.firstname + ' ' + customer.lastname + ', ' + customer.email_address +')');
+    test.assertEquals(found, true, 'order found [ ' + customer.order_number + ' ]');
     selector = backend.order_delete_btn.replace('tr:nth-child(1)', 'tr:nth-child(' +  row_idx +')');
     test.assertVisible(selector, 'delete visable');
     this.thenClick(selector);
@@ -248,7 +255,6 @@ casper.test.begin('Testing account and order for create and delete', 32, functio
   casper.then(function() {
     this.capture('admin-order-deleted.png');
     test.assertVisible(backend.order_deleted, 'order deleted visable');
-    this.echo('order deleted', 'INFO');
     test.assertVisible(backend.menu_link, 'toggle menu visable');
     this.thenClick(backend.menu_link);
   });
@@ -301,7 +307,7 @@ casper.test.begin('Testing account and order for create and delete', 32, functio
     this.capture('admin-users-searched.png');
     test.assertVisible(backend.search_count, 'search result count visable');
     var result_cnt = this.getHTML(backend.search_count);
-    test.assertEquals(result_cnt, '1 item', '1 item found for (' + customer.email_address + ')');
+    test.assertEquals(result_cnt, '1 item', '1 item found for "' + customer.email_address + '"');
     test.assertVisible(backend.users_delete, 'delete link visable');  
     this.thenClick(backend.users_delete);
   });
@@ -326,7 +332,6 @@ casper.test.begin('Testing account and order for create and delete', 32, functio
   casper.then(function() {
     this.capture('admin-user-deleted.png');
     test.assertVisible(backend.update_message, 'update message visable');
-    this.echo('account deleted', 'INFO');
     this.thenClick(backend.logout_link);
   });
 
@@ -345,23 +350,4 @@ casper.test.begin('Testing account and order for create and delete', 32, functio
       test.done();
   });
 });
-
-
-  /*
-
-  customer
-  -logoff
-
-  admin
-  -call login
-  -send login
-  -get order page edit.php?post_type=shop_order
-  - fill search 
-  - get text "1 item", delete order
-  -get users
-  - search name
-  - get text "1 item", delete user
-  -call logoff
-
-  */
 
