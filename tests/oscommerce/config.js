@@ -16,7 +16,7 @@ var test_url = 'http://localhost/';
 
 
 var test_page = new Object();
-test_page.get_links_selector = 'div a';
+test_page.get_links_selector = 'body a';
 test_page.get_img_selector = 'div img';
 test_page.get_link_selector = 'link';
 test_page.get_script_selector = 'script';
@@ -66,9 +66,10 @@ customer.selector_create_account = 'div.content tr:nth-child(3) table tr:nth-chi
 customer.selector_form_create_new = 'form[name=login] table:nth-child(2) a';
 customer.selector_form_login = 'form[name=login]';
 customer.selector_form_create = 'form[name=create_account]';
-customer.selector_logoff = 'table:nth-child(2) tr:nth-child(1) td:nth-child(2) a:nth-child(2)';
-
+customer.selector_create_continue = 'form[name=create_account] input[type=image]';
+customer.selector_login_continue_btn =  'input[src$="button_login.gif"]';
+customer.selector_logoff = 'a[href$="logoff.php"]';
 
 // customize casper
-casper.options.verbose  = true;
-casper.options.logLevel = 'debug';// 'info';// 'debug'
+//casper.options.verbose  = true;
+//casper.options.logLevel = 'debug';// 'info';
